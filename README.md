@@ -81,3 +81,9 @@ without changing the existing RTL:
   printout of got/expected, final summary).
 - Add more convenient ModelSim helper scripts to select and run a specific testbench target without editing compile/run
   commands.
+
+## Credits
+Developed by Runi Zukerman and David Orlian.
+
+## Acknowledgements
+This project was developed with assistance from ChatGPT. ChatGPT provided code drafting and documentation support. The overall architecture and approach were defined by the authors, and the implementation was iteratively refined through author-led design decisions, bug fixing, and simulation-based validation.
