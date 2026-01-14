@@ -1,0 +1,21 @@
+# ModelSim / Questa
+work/
+transcript
+vsim.wlf
+*.wlf
+*.log
+*.vcd
+*.vstf
+*.mpf
+*.mti
+*.cr.mti
+*.ini
+
+# OS noise
+desktop.ini
+Thumbs.db
+
+# backups / temp
+*.bak
+*.tmp
+*~
