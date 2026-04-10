@@ -36,8 +36,6 @@ sim/   - ModelSim automation (run.do)
 docs/  - Presentation and documentation
 ```
 
-Additional materials (module-level testbenches, Python scripts, reports) are preserved under the original project directories.
-
 ---
 
 ## ⚙️ Simulation
@@ -70,8 +68,17 @@ The design is verified using a **self-checking testbench**:
 
 ## 📊 Results
 
-* Functional simulation: ✔ PASS
-* Encryption output matches known DES reference vectors
+- Functional simulation: ✔ PASS  
+- Encryption output matches known DES reference vectors  
+
+### FPGA Implementation
+
+- Target device: Artix-7 FPGA  
+- Fmax (post-synthesis): ~55 MHz  
+- LUTs: ~1455  
+- Flip-flops: ~184  
+
+Detailed reports are available in `docs/reports/`.
 
 ---
 
