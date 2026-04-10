@@ -30,11 +30,28 @@ The top-level module (`des_top`) integrates:
 ## 📁 Project Structure
 
 ```
-src/   - RTL implementation (DES core, Feistel, key schedule, S-boxes)
-tb/    - Top-level testbench
-sim/   - ModelSim automation (run.do)
-docs/  - Presentation and documentation
+src/  - RTL implementation
+        - DES core (des_top and submodules)
+        - optional wrapper variants for alternative integration scenarios
+
+tb/   - Verification environment (testbenches for all modules and top-level designs)
+
+sim/  - ModelSim simulation scripts (primary flow uses des_top)
+
+docs/ - Reports, presentation, and test vector generation tools
 ```
+
+---
+
+## 🔌 Alternative Integration (Wrapper)
+
+In addition to the main `des_top` implementation, this repository includes an optional wrapper module (`des_top_wrapper`) for reduced-I/O integration scenarios.
+
+The wrapper allows loading the 64-bit DES key and input block through a 32-bit shared data bus using a selector-based interface. It also provides serialized access to the 64-bit result.
+
+This variant was explored to support FPGA targets with limited I/O resources, where exposing full 64-bit interfaces is not practical.
+
+While the primary simulation and implementation flow uses `des_top`, the wrapper is preserved as part of the project to document an alternative architectural approach and demonstrate integration flexibility.
 
 ---
 
