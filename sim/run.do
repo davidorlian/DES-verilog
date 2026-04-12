@@ -24,17 +24,17 @@ vlog src/feistel/IP_and_inv_IP/inv_ip.v
 vlog src/feistel/logic/f_function/e_permutation/e_permutation.v
 vlog src/feistel/logic/f_function/p_permutation/p_permutation.v
 
-vlog src/feistel/logic/F_function/S-box/sbox1.v
-vlog src/feistel/logic/F_function/S-box/sbox2.v
-vlog src/feistel/logic/F_function/S-box/sbox3.v
-vlog src/feistel/logic/F_function/S-box/sbox4.v
-vlog src/feistel/logic/F_function/S-box/sbox5.v
-vlog src/feistel/logic/F_function/S-box/sbox6.v
-vlog src/feistel/logic/F_function/S-box/sbox7.v
-vlog src/feistel/logic/F_function/S-box/sbox8.v
-vlog src/feistel/logic/F_function/S-box/sbox_layer.v
+vlog src/feistel/logic/f_function/sbox/sbox1.v
+vlog src/feistel/logic/f_function/sbox/sbox2.v
+vlog src/feistel/logic/f_function/sbox/sbox3.v
+vlog src/feistel/logic/f_function/sbox/sbox4.v
+vlog src/feistel/logic/f_function/sbox/sbox5.v
+vlog src/feistel/logic/f_function/sbox/sbox6.v
+vlog src/feistel/logic/f_function/sbox/sbox7.v
+vlog src/feistel/logic/f_function/sbox/sbox8.v
+vlog src/feistel/logic/f_function/sbox/sbox_layer.v
 
-vlog src/feistel/logic/F_function/f_function.v
+vlog src/feistel/logic/f_function/f_function.v
 vlog src/feistel/logic/round_logic.v
 vlog src/feistel/feistel.v
 
