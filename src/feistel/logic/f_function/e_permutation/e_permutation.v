@@ -1,4 +1,4 @@
-module e_function (
+module e_permutation (
     input  wire [31:0] in,
     output wire [47:0] out
 );

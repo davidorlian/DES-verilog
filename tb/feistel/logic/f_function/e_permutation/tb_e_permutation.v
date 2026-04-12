@@ -1,11 +1,11 @@
 `timescale 1ns / 1ps
 
-module tb_e_function;
+module tb_e_permutation;
     reg  [31:0] in;
     wire [47:0] out;
 
     // Instantiate your perm function module
-    e_function uut (
+    e_permutation uut (
         .in(in),
         .out(out)
     );

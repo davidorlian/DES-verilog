@@ -9,7 +9,7 @@ module f_function (
     wire [31:0] sbox_out;
 
     // Step 1: Expansion
-    e_function e_exp (
+    e_permutation e_exp (
         .in(R_in),
         .out(expanded)
     );
