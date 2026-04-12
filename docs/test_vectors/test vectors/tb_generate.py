@@ -56,7 +56,7 @@ def generate_sbox_layer_assignments(vectors, input_value, output_file):
         f.write(line + '\n')
 
 
-def generate_p_function_assignments(vectors, input_value, output_file):
+def generate_p_permutation_assignments(vectors, input_value, output_file):
     p_in = vectors['SBOX[1]']
     p_out = vectors['P[1]']
     line = f"test_data[{input_value[0]}] = 32'h{p_in}; expected_outs[{input_value[0]}] = 32'h{p_out};"
@@ -92,8 +92,8 @@ def parse_vectors_to_dict(filename):
 
 def main():
     print("=== Testbench Generator ===")
-    mode = input("Select testbench type (feistel / ip / round_logic / f_function / sbox_layer / p_function / e_permutation) [Default: feistel]: ").strip().lower()
-    if mode not in ['feistel', 'ip', 'round_logic', 'f_function', 'sbox_layer', 'p_function', 'e_permutation', '']:
+    mode = input("Select testbench type (feistel / ip / round_logic / f_function / sbox_layer / p_permutation / e_permutation) [Default: feistel]: ").strip().lower()
+    if mode not in ['feistel', 'ip', 'round_logic', 'f_function', 'sbox_layer', 'p_permutation', 'e_permutation', '']:
         print("Invalid mode. Choose 'feistel' or 'ip' or round_logic or f_function.")
         return
     mode = 'feistel' if mode == '' else mode
@@ -109,7 +109,7 @@ def main():
         "round_logic": "round_logic_assignments.txt",
         "f_function": "f_function_assignments.txt",
         "sbox_layer": "sbox_layer_assignments.txt",
-        "p_function": "p_function_assignments.txt",
+        "p_permutation": "p_permutation_assignments.txt",
         "e_permutation": "e_permutation_assignments.txt"
     }.get(mode, "output.txt")
 
@@ -160,13 +160,13 @@ def main():
             vectors = parse_vectors_to_dict("des_test_vectors.txt")
             generate_sbox_layer_assignments(vectors, (i, pt), output_file)
 
-        elif mode == "p_function":
+        elif mode == "p_permutation":
             pt = random_hex(64)
             key = random_hex(64)
             print(f"Test {i + 1}: input={pt}")
             driver = parse_main(pt, key, num_inputs - i + 1, driver)
             vectors = parse_vectors_to_dict("des_test_vectors.txt")
-            generate_p_function_assignments(vectors, (i, pt), output_file)
+            generate_p_permutation_assignments(vectors, (i, pt), output_file)
 
         elif mode == "e_permutation":
             pt = random_hex(64)

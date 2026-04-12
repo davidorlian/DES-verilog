@@ -1,4 +1,4 @@
-module p_function (
+module p_permutation (
     input  wire [31:0] in,
     output wire [31:0] out
 );

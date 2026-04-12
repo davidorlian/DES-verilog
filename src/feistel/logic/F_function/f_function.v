@@ -24,7 +24,7 @@ module f_function (
     );
 
     // Step 4: P-function (Permutation)
-    p_function p_perm (
+    p_permutation p_perm (
         .in(sbox_out),
         .out(f_out)
     );

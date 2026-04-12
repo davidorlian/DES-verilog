@@ -22,7 +22,7 @@ vlog src/feistel/IP_and_inv_IP/ip.v
 vlog src/feistel/IP_and_inv_IP/inv_ip.v
 
 vlog src/feistel/logic/f_function/e_permutation/e_permutation.v
-vlog src/feistel/logic/F_function/P-perm/P_func.v
+vlog src/feistel/logic/f_function/p_permutation/p_permutation.v
 
 vlog src/feistel/logic/F_function/S-box/sbox1.v
 vlog src/feistel/logic/F_function/S-box/sbox2.v
