@@ -1,11 +1,11 @@
-module tb_IP;
+module tb_ip;
 
     // Testbench signals
     reg [63:0] data_in;
     wire [63:0] data_out;
     
-    // Instantiate the IP module
-    IP dut (
+    // Instantiate the initial permutation module
+    ip uut (
         .data_in(data_in),
         .data_out(data_out)
     );

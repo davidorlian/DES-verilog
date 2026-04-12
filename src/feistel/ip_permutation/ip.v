@@ -1,4 +1,4 @@
-module IP (
+module ip (
     input  wire [63:0] data_in,
     output wire [63:0] data_out
 );

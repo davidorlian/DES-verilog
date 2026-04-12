@@ -18,8 +18,8 @@ vlog src/key_schedule/shift/key_round_step.v
 vlog src/key_schedule/pc2/pc2.v
 vlog src/key_schedule/key_schedule.v
 
-vlog src/feistel/IP_and_inv_IP/ip.v
-vlog src/feistel/IP_and_inv_IP/inv_ip.v
+vlog src/feistel/ip_permutation/ip.v
+vlog src/feistel/ip_permutation/inv_ip.v
 
 vlog src/feistel/logic/f_function/e_permutation/e_permutation.v
 vlog src/feistel/logic/f_function/p_permutation/p_permutation.v

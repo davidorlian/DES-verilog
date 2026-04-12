@@ -43,7 +43,7 @@ module feistel (
     assign round_keys[15] = round_key_15;
 
     // Initial Permutation (IP)
-    IP ip_inst (
+    ip ip_inst (
         .data_in(data_in),
         .data_out(ip_out)
     );
@@ -64,7 +64,7 @@ module feistel (
     endgenerate
 
     // Inverse IP
-    inv_IP inv_ip_inst (
+    inv_ip inv_ip_inst (
         .data_in({round_data[16][31:0], round_data[16][63:32]}),
         .data_out(inv_ip_out)
     );
