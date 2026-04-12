@@ -67,7 +67,7 @@ The overall approach provides:
 - Chrome/Chromium
 - `webdriver-manager` (if used in the local setup)
 
-## 🚀 Usage
+## Usage
 
 Example flow:
 
@@ -76,7 +76,7 @@ python parse_des_vectors.py
 python tb_generate.py
 ```
 
-## 🧠 Notes
+## Notes
 
 - This tooling is intended for **verification support**, not as a standalone DES software implementation.
 - The DES algorithm is **not fully reimplemented in Python** here; instead, Python is used to acquire and transform trusted reference data into verification assets.
