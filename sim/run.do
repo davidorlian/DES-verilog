@@ -11,7 +11,7 @@ vlib work
 vmap work work
 
 # Compile RTL (order kept explicit for stability)
-vlog src/Register/register64.v
+vlog src/register/register64.v
 
 vlog src/key_schedule/pc1/pc1.v
 vlog src/key_schedule/shift/key_round_step.v
