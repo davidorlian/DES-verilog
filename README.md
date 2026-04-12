@@ -6,25 +6,56 @@ This project implements a full 16-round Feistel network, including key schedulin
 
 ---
 
-## 🧠 Architecture
+## 🧠 Architecture Overview
 
-The design follows the standard DES structure:
+### System-Level Design
 
-* Initial Permutation (IP)
-* 16-round Feistel network
-* Expansion (E)
-* Substitution (S-boxes)
-* Permutation (P)
-* Key schedule generation (PC1, shifts, PC2)
-* Final Permutation (IP⁻¹)
+![DES System](docs/architecture/des_encryption_block_diagram.png)
 
-The top-level module (`des_top`) integrates:
+The top-level module `des_top` integrates:
+- `key_schedule` – generates round keys
+- `feistel` – performs the 16-round Feistel network
+- internal input/output/key registers
 
-* 64-bit data and key registers
-* Key schedule generation
-* Full Feistel datapath
-* Registered ciphertext output
+---
 
+### Feistel Network
+
+![Feistel Network](docs/architecture/des_feistel_network.png)
+
+Mapped directly to RTL modules:
+- `ip` – initial permutation
+- `round_logic` – round-level transformation
+- `f_function` – core nonlinear function
+- `inv_ip` – final permutation
+
+---
+
+### Key Schedule
+
+![Key Schedule](docs/architecture/des_key_schedule.png)
+
+RTL decomposition:
+- `pc1` – initial key permutation
+- `key_round_step` – round shifting logic
+- `pc2` – subkey generation
+
+---
+
+### f-function (Round Function)
+
+![F Function](docs/architecture/des_f_function.png)
+
+Internal structure:
+- `e_permutation` – expansion (32 → 48 bits)
+- `sbox_layer` – substitution using 8 S-boxes (`sbox1`–`sbox8`)
+- `p_permutation` – final permutation
+
+---
+
+### Reference
+
+> Base diagrams adapted from FIPS PUB 46-3, with RTL module annotations corresponding to this implementation.
 ---
 
 ## 📁 Project Structure
