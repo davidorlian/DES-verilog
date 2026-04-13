@@ -1,36 +1,17 @@
 # DES in Verilog
 
-## Project Context
+Hardware implementation of the Data Encryption Standard (DES) in Verilog, covering the complete digital design flow from RTL through synthesis, place & route, and post-route timing simulation. The design implements a 16-round loop-unrolled Feistel architecture with full modular decomposition of the key schedule, permutations, and S-box substitution logic. Verified against known DES reference vectors using self-checking testbenches driven by a custom Python-based test vector generation workflow. Post-synthesis results on an Artix-7 FPGA reach ~55 MHz using ~1455 LUTs.
 
-This project was developed as part of the course  
-**"Cryptography Algorithms and Verilog Implementation"**.
+---
 
-The assignment required implementing the **Data Encryption Standard (DES)** algorithm in Verilog and demonstrating a complete digital design flow, including:
+## What This Project Demonstrates
 
-- RTL simulation
-- synthesis
-- place & route (P&R)
-- post-place & route timing simulation
-
-The implementation follows a loop-unrolled DES architecture, as specified in the assignment.
-
-AI tools were used primarily to generate initial RTL code.
-
-The generated code was often incomplete or incorrect and required significant manual work, including:
-- debugging functional errors
-- fixing incorrect logic and edge cases
-- resolving integration issues between modules
-- validating behavior through simulation
-
-As a result, the final design reflects substantial independent verification, debugging, and refinement beyond the initial generated code.
-
-A significant part of the effort was invested in verification infrastructure:
-- building Python tooling for test-vector generation
-- using an external trusted DES reference implementation
-- parsing intermediate DES trace data into Verilog-friendly form
-- generating module-level verification data for blocks such as `ip`, `f_function`, `e_permutation`, `p_permutation`, and `sbox_layer`
-
-This project therefore reflects not only functional RTL design, but also verification methodology, full implementation flow, and result analysis.
+- RTL implementation of a non-trivial cryptographic algorithm
+- Modular hardware decomposition: key schedule, permutations, S-box substitution
+- Reference-driven verification methodology using externally generated test vectors
+- Full design flow: RTL → simulation → synthesis → place & route → post-route timing validation
+- Python-based automation for verification data preparation
+- Systematic debugging using bit-level analysis
 
 ---
 
@@ -38,186 +19,125 @@ This project therefore reflects not only functional RTL design, but also verific
 
 ### System-Level Design
 
-![DES System](docs/architecture/des_encryption_block_diagram.png)
+[![DES System](docs/architecture/des_encryption_block_diagram.png)](docs/architecture/des_encryption_block_diagram.png)
 
 The top-level module `des_top` integrates:
-- `key_schedule`, which generates round keys
-- `feistel`, which performs the 16-round Feistel network
-- internal input, key, and output registers
+- `key_schedule` — generates the 16 round subkeys
+- `feistel` — performs the 16-round Feistel network
+- Internal registers for input, key, and output
 
 ---
 
 ### Feistel Network
 
-![Feistel Network](docs/architecture/des_feistel_network.png)
+[![Feistel Network](docs/architecture/des_feistel_network.png)](docs/architecture/des_feistel_network.png)
 
-This structure maps directly to the RTL modules:
-- `ip` for the initial permutation
-- `round_logic` for round-level transformation
-- `f_function` for the core nonlinear round function
-- `inv_ip` for the final permutation
+RTL modules map directly to the DES Feistel structure:
+- `ip` — initial permutation
+- `round_logic` — round-level transformation
+- `f_function` — core nonlinear round function
+- `inv_ip` — final permutation
 
 ---
 
 ### Key Schedule
 
-![Key Schedule](docs/architecture/des_key_schedule.png)
+[![Key Schedule](docs/architecture/des_key_schedule.png)](docs/architecture/des_key_schedule.png)
 
-The key-schedule implementation is decomposed into:
-- `pc1` for the initial key permutation
-- `key_round_step` for round shifting logic
-- `pc2` for subkey generation
+The key schedule is decomposed into:
+- `pc1` — initial key permutation
+- `key_round_step` — per-round shift logic
+- `pc2` — subkey extraction
 
 ---
 
 ### f-function
 
-![F Function](docs/architecture/des_f_function.png)
+[![F Function](docs/architecture/des_f_function.png)](docs/architecture/des_f_function.png)
 
-The internal structure of the DES round function includes:
-- `e_permutation` for expansion from 32 to 48 bits
-- `sbox_layer` for substitution using 8 S-boxes (`sbox1`–`sbox8`)
-- `p_permutation` for the final permutation stage
-
----
-
-### Reference
-
-Base diagrams were adapted from FIPS PUB 46-3, with RTL module annotations corresponding to this implementation.
-
----
-
-## Project Structure
-
-```text
-src/  - RTL implementation
-        - DES core (des_top and submodules)
-        - optional wrapper variant for alternative integration scenarios
-
-tb/   - Verification environment
-        - testbenches for modules and top-level designs
-
-sim/  - ModelSim simulation scripts
-        - primary flow uses des_top
-
-docs/ - Reports, presentation, architecture diagrams, and test-vector tooling
-```
-
----
-
-## Test Vector Generation and Verification Tooling
-
-To ensure reliable verification, a Python-based workflow was developed for generating and validating DES test vectors.
-
-This workflow uses a trusted external DES implementation (JS-DES) as a reference and extracts both final outputs and intermediate round values. The generated data is then:
-- parsed and normalized
-- converted into Verilog-compatible testbench inputs
-- reused for both module-level and system-level verification
-
-This approach enables:
-- reference-driven verification
-- reuse of intermediate DES states across multiple modules
-- reduced reliance on manually written or AI-generated test data
-
-Additional details about the verification tooling are available in:  
-`docs/test_vectors/README.md`
-
----
-
-## Alternative Integration Wrapper
-
-In addition to the main `des_top` implementation, this repository includes an optional wrapper module, `des_top_wrapper`, for reduced-I/O integration scenarios.
-
-The wrapper allows loading the 64-bit DES key and input block through a 32-bit shared data bus using a selector-based interface. It also provides serialized access to the 64-bit result.
-
-This variant was explored to support FPGA targets with limited I/O resources, where exposing full 64-bit interfaces is not practical.
-
-While the primary simulation and implementation flow uses `des_top`, the wrapper is preserved as part of the project to document an alternative architectural approach and demonstrate integration flexibility.
-
----
-
-## Simulation
-
-Simulation is performed using ModelSim.
-
-Run the full flow with:
-
-```bash
-vsim -do sim/run.do
-```
-
-This script:
-- compiles all RTL and testbench files
-- loads waveforms automatically
-- runs the simulation to completion
+The round function pipeline:
+- `e_permutation` — expansion from 32 to 48 bits
+- `sbox_layer` — nonlinear substitution via 8 S-boxes (`sbox1`–`sbox8`)
+- `p_permutation` — final permutation stage
 
 ---
 
 ## Verification
 
-The design is verified using self-checking testbenches driven by reference-based test vectors.
+The design is verified using self-checking testbenches driven by externally generated reference vectors.
 
 The verification flow includes:
-- known DES reference vectors
-- module-level verification using parsed intermediate DES states
-- automatic output comparison
-- PASS/FAIL reporting in simulation
+- Known DES reference vectors
+- Module-level verification using parsed intermediate DES states
+- Automatic output comparison with PASS/FAIL reporting
+
+### Test Vector Generation
+
+A Python-based workflow generates and validates DES test vectors using a trusted external DES reference (JS-DES). Intermediate round values are extracted, normalized, and converted into Verilog-compatible testbench inputs — enabling both module-level and system-level coverage without reliance on manually written test data.
+
+Details in `docs/test_vectors/README.md`.
 
 ### Debugging Example
 
-During verification, a systematic mismatch was observed between expected and simulated outputs.
+During verification, a systematic bit-level mismatch was observed across simulation outputs. Converting hex to binary revealed a consistent inversion pattern (0 → 1, 1 → 0), which immediately narrowed the search space to permutation stages rather than functional logic. The root cause was an incorrect bit-ordering in one permutation block. Correcting it resolved all mismatches.
 
-By converting the hexadecimal outputs to binary representation, a clear pattern emerged:  
-each bit was inverted (0 → 1, 1 → 0).
-
-This observation indicated that the issue was not related to the core logic, but rather to an incorrect bit mapping.
-
-Further inspection revealed an error in one of the permutation stages, where the bit ordering was implemented incorrectly.
-
-This significantly reduced the debugging search space by focusing on permutation stages instead of functional logic.
-
-After correcting the permutation mapping, the design produced the expected results.
-
-This debugging process highlights the importance of:
-- bit-level analysis
-- recognizing systematic error patterns
-- distinguishing between logic errors and data-path mapping issues
-
-This allowed narrowing the issue to the permutation stage quickly, instead of investigating the full data path.
+This is a good example of how recognizing a systematic error pattern — rather than debugging the full data path — significantly reduces debugging time.
 
 ---
 
 ## Results
 
-- Functional simulation: PASS (RTL and post-P&R)
+- Functional simulation: **PASS** (RTL and post-P&R)
 - Encryption output matches known DES reference vectors
 
-### FPGA Implementation
+The design is implemented as a loop-unrolled combinational datapath — all 16 Feistel rounds are instantiated explicitly, with registers only at the input and output boundaries. The critical path traverses all 16 rounds, which accounts for the ~55 MHz Fmax.
 
-- Target device: Artix-7 FPGA
-- Fmax (post-synthesis): ~55 MHz
-- LUTs: ~1455
-- Flip-flops: ~184
+### FPGA Implementation (Artix-7)
 
-Detailed reports are available in `docs/reports/`.
+| Metric | Value |
+|---|---|
+| Fmax (post-synthesis) | ~55 MHz |
+| LUTs | ~1455 |
+| Flip-flops | ~184 |
 
----
-
-## What This Project Demonstrates
-
-- RTL implementation of a non-trivial cryptographic algorithm
-- Design of a multi-stage datapath based on the DES Feistel architecture
-- Modular hardware decomposition of key schedule, permutations, and substitution logic
-- Reference-driven verification methodology
-- Simulation, synthesis, place & route, and post-route timing validation
-- Python-based automation for verification data preparation
+Detailed reports in `docs/reports/`.
 
 ---
 
-## Full Project Presentation
+## Simulation
 
-The project presentation is available in:  
-`docs/DES_Algorithm_Presentation.pptx`
+Simulation is performed using ModelSim. Run the full flow with:
+
+```
+vsim -do sim/run.do
+```
+
+This compiles all RTL and testbench files, loads waveforms, and runs simulation to completion.
+
+---
+
+## Alternative Integration Wrapper
+
+`des_top_wrapper` is an optional module for reduced-I/O integration scenarios. It loads the 64-bit key and input block through a 32-bit shared bus using a selector interface, and provides serialized access to the 64-bit output — useful for FPGA targets where exposing full 64-bit interfaces is not practical.
+
+---
+
+## Project Structure
+
+```
+src/   RTL implementation (des_top and submodules, optional wrapper)
+tb/    Verification environment (module-level and top-level testbenches)
+sim/   ModelSim simulation scripts
+docs/  Reports, presentation, architecture diagrams, test vector tooling
+```
+
+---
+
+## Project Context
+
+Developed as part of the course **"Cryptography Algorithms and Verilog Implementation"**. The assignment required implementing DES in Verilog and demonstrating a complete digital design flow including RTL simulation, synthesis, P&R, and post-P&R timing simulation.
+
+AI tools were used to generate initial RTL code. The generated code was frequently incomplete or incorrect and required significant manual work: debugging functional errors, fixing logic, resolving integration issues, and building the full verification infrastructure independently.
 
 ---
 
