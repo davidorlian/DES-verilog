@@ -75,7 +75,7 @@ The verification flow includes:
 
 A Python-based workflow generates and validates DES test vectors using a trusted external DES reference (JS-DES). Intermediate round values are extracted, normalized, and converted into Verilog-compatible testbench inputs — enabling both module-level and system-level coverage without reliance on manually written test data.
 
-Details in `docs/test_vectors/README.md`.
+Details in [Test Vector Documentation](docs/test_vectors/README.md).
 
 ### Debugging Example
 
@@ -100,7 +100,7 @@ The design is implemented as a loop-unrolled combinational datapath — all 16 F
 | LUTs | ~1455 |
 | Flip-flops | ~184 |
 
-Detailed reports in `docs/reports/`.
+Detailed reports are available in [docs/reports](docs/reports/).
 
 ---
 
@@ -138,6 +138,11 @@ docs/  Reports, presentation, architecture diagrams, test vector tooling
 Developed as part of the course **"Cryptography Algorithms and Verilog Implementation"**. The assignment required implementing DES in Verilog and demonstrating a complete digital design flow including RTL simulation, synthesis, P&R, and post-P&R timing simulation.
 
 AI tools were used to generate initial RTL code. The generated code was frequently incomplete or incorrect and required significant manual work: debugging functional errors, fixing logic, resolving integration issues, and building the full verification infrastructure independently.
+
+## Project Presentation
+
+A full overview of the design, architecture, and implementation flow is available in the project presentation:  
+[DES Algorithm Presentation (PDF)](docs/DES_Algorithm_Presentation.pdf)
 
 ---
 
