@@ -38,6 +38,8 @@ RTL modules map directly to the DES Feistel structure:
 - `f_function` — core nonlinear round function
 - `inv_ip` — final permutation
 
+The design is implemented as a loop-unrolled combinational datapath: all 16 Feistel rounds are instantiated explicitly, with registers only at the input and output boundaries.
+
 ---
 
 ### Key Schedule
@@ -90,7 +92,7 @@ This is a good example of how recognizing a systematic error pattern — rather 
 - Functional simulation: **PASS** (RTL and post-P&R)
 - Encryption output matches known DES reference vectors
 
-The design is implemented as a loop-unrolled combinational datapath — all 16 Feistel rounds are instantiated explicitly, with registers only at the input and output boundaries. The critical path traverses all 16 rounds, which accounts for the ~55 MHz Fmax.
+The critical path traverses all 16 rounds, which accounts for the ~55 MHz Fmax.
 
 ### FPGA Implementation (Artix-7)
 
@@ -133,16 +135,18 @@ docs/  Reports, presentation, architecture diagrams, test vector tooling
 
 ---
 
+## Project Presentation
+
+A full overview of the design, architecture, and implementation flow is available in the project presentation:  
+[DES Algorithm Presentation (PDF)](docs/DES_Algorithm_Presentation.pdf)
+
+---
+
 ## Project Context
 
 Developed as part of the course **"Cryptography Algorithms and Verilog Implementation"**. The assignment required implementing DES in Verilog and demonstrating a complete digital design flow including RTL simulation, synthesis, P&R, and post-P&R timing simulation.
 
 AI tools were used to generate initial RTL code. The generated code was frequently incomplete or incorrect and required significant manual work: debugging functional errors, fixing logic, resolving integration issues, and building the full verification infrastructure independently.
-
-## Project Presentation
-
-A full overview of the design, architecture, and implementation flow is available in the project presentation:  
-[DES Algorithm Presentation (PDF)](docs/DES_Algorithm_Presentation.pdf)
 
 ---
 
